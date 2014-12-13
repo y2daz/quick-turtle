@@ -87,53 +87,53 @@ $(document).ready(function(){
         $("#" + q).addClass("moving");
 
 
-            var thisStyle = {"top" : "+=80px"};
+            var thisStyle1 = {"top" : "+=80px"};
+            var thisStyle2 = {"top" : "+=50px"};
 
-            $("#" + p).animate( thisStyle, speed, myEasing, function(){
+            $("#" + p).animate( thisStyle1, speed, myEasing);
 
-                thisStyle = {"top" : "+=50px"};
-                $("#" + q).animate( thisStyle, speed, myEasing, function(){
+            $("#" + q).animate( thisStyle2, speed, myEasing, function(){
 
-                    var leftQ = ( ( q + 1) * 100 / (number + 1)).toString() + "%";
-                    thisStyle = {"left" : "" + leftQ};
-                    $("#" + p).animate( thisStyle, 1.3 * speed, myEasing, function(){
+                var leftQ = ( ( q + 1) * 100 / (number + 1)).toString() + "%";
+                thisStyle1 = {"left" : "" + leftQ};
+                $("#" + p).animate( thisStyle1, 1.3 * speed, myEasing);
 
-                        var leftP = ( ( p + 1) * 100 / (number + 1)).toString() + "%";
-                        thisStyle = {"left" : "" + leftP};
-                        $("#" + q).animate( thisStyle, 1.3 * speed, myEasing, function(){
+                var leftP = ( ( p + 1) * 100 / (number + 1)).toString() + "%";
+                thisStyle2 = {"left" : "" + leftP};
+                $("#" + q).animate( thisStyle2, 1.3 * speed, myEasing, function(){
 
-                            var thisStyle = {"top" : "-=80px"};
-                            $("#" + p).animate( thisStyle, speed, myEasing, function(){
+                    var thisStyle1 = {"top" : "-=80px"};
+                    $("#" + p).animate( thisStyle1, speed, myEasing);
 
-                                thisStyle = {"top" : "-=50px"};
-                                $("#" + q).animate( thisStyle, speed, myEasing, function(){
+                    thisStyle2 = {"top" : "-=50px"};
+                    $("#" + q).animate( thisStyle2, speed, myEasing, function(){
 
-                                    var tempOb = 0;
-                                    var pOb = $("#" + p);
-                                    var qOb = $("#" + q);
+                        var tempOb = 0;
+                        var pOb = $("#" + p);
+                        var qOb = $("#" + q);
 
-                                    tempOb = $(pOb).attr("id");
-                                    $(pOb).attr( "id", $(qOb).attr("id"));
-                                    $(qOb).attr( "id", tempOb);
+                        tempOb = $(pOb).attr("id");
+                        $(pOb).attr( "id", $(qOb).attr("id"));
+                        $(qOb).attr( "id", tempOb);
 
-                                    $("#btnPause").attr("disabled", false);
+                        $("#btnPause").attr("disabled", false);
 
-                                        if(pQueue.length > 0){
-                                            if(pause == false)
-                                            {
-                                                execAnimQueue();
-                                            }
-                                        }
-                                        else{
-                                            $(".moveDiv").addClass("currentArr");
-                                            $(":button").attr("disabled", false);
-                                            $("#btnPause").attr("disabled", true);
-                                            $("#btnPause").attr("value", "Pause.");
-                                            $("#noofItems").attr("disabled", false);
-                                            $(".moveDiv").removeClass("moving");
-                                        }
+                            if(pQueue.length > 0){
+                                if(pause == false)
+                                {
+                                    execAnimQueue();
+                                }
+                            }
+                            else{
+                                $(".moveDiv").addClass("currentArr");
+                                $(":button").attr("disabled", false);
+                                $("#btnPause").attr("disabled", true);
+                                $("#btnPause").attr("value", "Pause.");
+                                $("#noofItems").attr("disabled", false);
+                                $(".moveDiv").removeClass("moving");
+                            }
 
-                                })})})})})});
+                    })})});
     } ///De-queues queued swaps for animation purposes
 
     function QuickSort(A, p, r){

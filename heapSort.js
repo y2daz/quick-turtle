@@ -6,7 +6,7 @@
 $(document).ready(function(){
 
     var myEasing = "swing";
-    var sortArray = new Array();
+    var sortArray = [];
     var arrSize;
     var heapSize;
     var pQueue = [];
@@ -68,21 +68,33 @@ $(document).ready(function(){
         $('#sorting').hide();
     } ///Puts values in our array to the divs for animation
 
-    function layOutDiv(){ //Puts sorting divs one after the other for easy viewing after sorting
-        var k;
+    function layOutDiv( i ){ //Puts sorting divs one after the other for easy viewing after sorting
         var percent;
         var thisStyle;
         var number = $('.moveDiv').length;
-
-        $('.moveDiv').each( function(i, obj) {
-            k = parseInt( $(this).attr("id") );
-            percent = ( ( k + 1) * 100 / (number + 1)).toString() + "%";
-            thisStyle = {"left" : percent, "top": 0};
-
-            $(this).stop().animate( thisStyle, 400, myEasing);
-        });
+        var next = i + 1;
 
         $("#message").html("");
+
+        if ( i == null )
+        {
+            return;
+        }
+        else
+        {
+            if ( i == number - 1 )
+            {
+                next = null;
+            }
+        }
+
+        percent = ( ( i + 1) * 100 / (number + 1) ).toString() + "%";
+        console.log( i + " is " + percent );
+        thisStyle = {"left" : percent, "top" : 0};
+        $("#" + i).animate( thisStyle, speed, myEasing, function(){
+            layOutDiv( next );
+        });
+
     } ///Puts sorting divs one after the other for easy viewing after sorting
 
     function execAnimQueue(){ ///Dequeues queued swaps for animation purposes
@@ -104,46 +116,46 @@ $(document).ready(function(){
 
         $("#message").addClass("kw").html(message);
 
-        var thisStyle = {"top" : qTop};
+        var thisStyle1 = {"top" : qTop};
+        var thisStyle2 = {"top" : pTop};
 
-            $("#" + p).animate( thisStyle, speed, myEasing, function(){
+            $("#" + p).animate( thisStyle1, speed, myEasing);
 
-                thisStyle = {"top" : pTop};
-                $("#" + q).animate( thisStyle, speed, myEasing, function(){
+            $("#" + q).animate( thisStyle2, speed, myEasing, function(){
 
-                    thisStyle = {"left" : qLeft};
-                    $("#" + p).animate( thisStyle, speed, myEasing, function(){
+                thisStyle1 = {"left" : qLeft};
+                $("#" + p).animate( thisStyle1, speed, myEasing);
 
-                        thisStyle = {"left" : pLeft};
-                        $("#" + q).animate( thisStyle, speed, myEasing, function(){
+                thisStyle2 = {"left" : pLeft};
+                $("#" + q).animate( thisStyle2, speed, myEasing, function(){
 
-                            var tempOb = 0;
-                            var pOb = $("#" + p);
-                            var qOb = $("#" + q);
+                    var tempOb = 0;
+                    var pOb = $("#" + p);
+                    var qOb = $("#" + q);
 
-                            tempOb = $(pOb).attr("id");
-                            $(pOb).attr( "id", $(qOb).attr("id"));
-                            $(qOb).attr( "id", tempOb);
+                    tempOb = $(pOb).attr("id");
+                    $(pOb).attr( "id", $(qOb).attr("id"));
+                    $(qOb).attr( "id", tempOb);
 
-                            $("#btnPause").attr("disabled", false);
+                    $("#btnPause").attr("disabled", false);
 
-                                if(pQueue.length > 0){
-                                    if(pause == false)
-                                    {
-                                        execAnimQueue();
-                                    }
-                                }
-                                else{
-                                    $(".moveDiv").removeClass("moving");
-                                    $(".moveDiv").addClass("currentArr");
-                                    $(":button").attr("disabled", false);
-                                    $("#btnPause").attr("disabled", true);
-                                    $("#btnPause").attr("value", "Pause.");
-                                    $("#noofItems").attr("disabled", false);
-                                    layOutDiv();
-                                }
+                        if(pQueue.length > 0){
+                            if(pause == false)
+                            {
+                                execAnimQueue();
+                            }
+                        }
+                        else{
+                            $(".moveDiv").removeClass("moving");
+                            $(".moveDiv").addClass("currentArr");
+                            $(":button").attr("disabled", false);
+                            $("#btnPause").attr("disabled", true);
+                            $("#btnPause").attr("value", "Pause.");
+                            $("#noofItems").attr("disabled", false);
+                            layOutDiv( 0 );
+                        }
 
-                                })})})});
+                        })});
     } ///Dequeues queued swaps for animation purposes
 
     function visualHeap(){ //Arranges sorting divs into a heap visually
@@ -233,7 +245,7 @@ $(document).ready(function(){
         var i;
         for (i = 1; i < $('.moveDiv').length; i++)
         {
-            if (parseInt($("#" + (i-1)).html()) > parseInt($("#" + (i)).html()))
+            if ( parseInt( $("#" + (i-1) ).html() ) > parseInt( $("#" + (i) ).html() ) )
             {
                 return false;
             }
@@ -241,7 +253,7 @@ $(document).ready(function(){
         return true;
     } ///Uses an O(n) algorithm to check if the array is already sorted
 
-    $('#btnItemCount').on('click', function(e){  //Actual setting of number of values
+    $('#btnItemCount').on('click', function(e){ //Actual setting of number of values
         e.preventDefault();
 
         var number = document.getElementById("noofItems").value;
@@ -293,8 +305,6 @@ $(document).ready(function(){
 
         pause = false;
 
-        visualHeap();
-
         $('#sorting').show();
         $(":button").attr("disabled", true);
         $("#btnPause").attr("disabled", false);
@@ -303,6 +313,7 @@ $(document).ready(function(){
 
         if (!isDivSorted())
         {
+            visualHeap();
             heapSize = number;
             HeapSort(sortArray);
             setTimeout(execAnimQueue, 1000);
@@ -311,7 +322,7 @@ $(document).ready(function(){
         }
         else
         {
-            setTimeout(layOutDiv(), 1000);
+            setTimeout( layOutDiv( 0 ), 0);
             $(".moveDiv").addClass("currentArr");
             $(":button").attr("disabled", false);
             $("#btnPause").attr("disabled", true);
