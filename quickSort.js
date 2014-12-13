@@ -256,20 +256,24 @@ $(document).ready(function(){
             $(this).animate( thisStyle, 400);
         });
 
+        $(".moveDiv").addClass("currentArr");
+        setTimeout( x, 450 );
 
-        if (!isDivSorted())
-        {
-            QuickSort(sortArray, 0, number - 1);
-            execAnimQueue();
-            $(this).attr("disabled", true);
-            $('#btnPause').attr("disabled", false);
-        }
-        else
-        {
-            $(".moveDiv").addClass("currentArr");
-            $(":button").attr("disabled", false);
-            $("#btnPause").attr("disabled", true);
-            $("#noofItems").attr("disabled", false);
+        function x(){
+            if (!isDivSorted())
+            {
+                QuickSort(sortArray, 0, number - 1);
+                execAnimQueue();
+                $(this).attr("disabled", true);
+                $('#btnPause').attr("disabled", false);
+            }
+            else
+            {
+//                $(".moveDiv").addClass("currentArr");
+                $(":button").attr("disabled", false);
+                $("#btnPause").attr("disabled", true);
+                $("#noofItems").attr("disabled", false);
+            }
         }
     }); ///Clicked Sort! button
 
