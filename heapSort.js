@@ -258,7 +258,7 @@ $(document).ready(function(){
 
         var number = document.getElementById("noofItems").value;
 
-        if (number > 20 || number < 2)
+        if (number > 31 || number < 2)
         {
             $.noop();
         }
