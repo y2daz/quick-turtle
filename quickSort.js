@@ -11,7 +11,7 @@ $(document).ready(function(){
     var pQueue = [];
     var qQueue = [];
     var pause = false;
-    var speed = 1000;
+    var speed = $("#speed").val();
 
     $(".note").hide();  ///Hides error message span
 

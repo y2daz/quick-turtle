@@ -13,7 +13,7 @@ $(document).ready(function(){
     var qQueue = [];
     var messageQueue = [];
     var pause = false;
-    var speed = 1000;
+    var speed = $("#speed").val();
 
     $(".note").hide();  ///Hides error message span
 
@@ -110,6 +110,19 @@ $(document).ready(function(){
         var qLeft = qPos.left;
         var qTop = qPos.top;
 
+        /*$(".currentArr").removeClass("currentArr");
+        for(i = parseInt( thisRowP[1] ); i <= parseInt( thisRowQ[1] ); i++ )
+        {
+            $("#" + i).addClass("currentArr");
+        }*/
+/*
+        $(".currentArr").removeClass("currentArr");
+        for(i = 0; i < animationHeapSize; i++ )
+        {
+            $("#" + i).addClass("currentArr");
+        }
+*/
+
         $(".moveDiv").removeClass("moving");
         $("#" + p).addClass("moving");
         $("#" + q).addClass("moving");
@@ -188,6 +201,7 @@ $(document).ready(function(){
         {
             exchange(A, 0, i, "HeapSort");
             heapSize--;
+//            console.log("Heapsize = " + heapSize);
             Heapify(A, 0, "Heapify");
         }
     } ///Actual HeapSort algorithm
@@ -258,7 +272,7 @@ $(document).ready(function(){
 
         var number = document.getElementById("noofItems").value;
 
-        if (number > 31 || number < 2)
+        if (number > 20 || number < 2)
         {
             $.noop();
         }
